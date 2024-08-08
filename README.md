@@ -24,13 +24,13 @@ The project consists of the following components:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/client-server-db.git
+   git clone https://github.com/MeravC/ETL.git
    ```
 
 2. Install dependencies:
 
    ```bash
-   cd client-server-db
+   cd ETL
    npm install
    ```
 
