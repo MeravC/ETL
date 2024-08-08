@@ -74,5 +74,5 @@ You can access the user's revenue data by making a GET request to the `/userEven
 1. Implement more robust error handling and logging.
 2. Add support for more event types and data fields.
 3. Implement a more secure authentication mechanism, such as using JSON Web Tokens (JWT).
-4. Optimize the data processor's performance by using a more efficient database update strategy, such as a batch update.
+4. Optimize the data processor's performance by using a more efficient database.
 5. Add unit tests for the individual components.

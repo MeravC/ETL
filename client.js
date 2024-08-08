@@ -4,17 +4,17 @@ const secret = 'secret';
 
 readEvents();
 
-
 async function readEvents() {
-    const rl = jsonl.readlines('events.jsonl');
-    while (true) {
-        const { value, done } = await rl.next();
-
-        if (done) break;
-        await postRequest(value);
-
+    try {
+      const rl = jsonl.readlines('events.jsonl');
+      for await (const event of rl) {
+        await postRequest(event);
+      }
+    } catch (error) {
+      console.error('Error reading events:', error);
+      throw error;
     }
-}
+  }
 
 async function postRequest(event) {
     const headers = {
@@ -22,7 +22,7 @@ async function postRequest(event) {
         'Content-Type': 'application/json',
     };
 
-    const requestOptions = {
+    const request = {
         url: "http://localhost:8000/liveEvent",
         method: 'POST',
         headers,
@@ -30,7 +30,7 @@ async function postRequest(event) {
     };
 
     try {
-        const response = await axios(requestOptions);
+        const response = await axios(request);
         return response.data;
     } catch (error) {
         console.error('Error sending POST request:', error.message);

@@ -7,7 +7,7 @@ app.use(express.json());
 const port = 8000;
 
 app.listen(port, () => {
-    console.log(`My app listening on port ${port}`);
+    console.info(`My app listening on port ${port}`);
 });
 
 app.post('/liveEvent', authentication, (req, res) => {
@@ -19,7 +19,7 @@ app.post('/liveEvent', authentication, (req, res) => {
         const fs = require('fs');
         fs.appendFile('eventsPost.jsonl', event, (err) => {
             if (err) throw err;
-            console.log('Text appended to file');
+            console.info('Text appended to eventsPost.jsonl file');
         });
 
     } catch (error) {
@@ -30,6 +30,9 @@ app.post('/liveEvent', authentication, (req, res) => {
 app.get('/userEvents/:userid', async (req, res) => {
     try {
         const userId = req.params && req.params.userid;
+        if(!userId){
+            throw new Error('Error- no user id');
+        }
         const result = await getRevenueByUserId(userId);
         if (!result) {
             throw new Error('Error Get results');
@@ -74,18 +77,10 @@ async function getRevenueByUserId(userId) {
 function authentication(req, res, next) {
     const authHeader = req.headers.authorization;
 
-    // if (!authHeader) {
-    //     let err = new Error('You are not authenticated!');
-    //     // res.setHeader('WWW-Authenticate', 'Basic');
-    //     err.status = 401;
-    //     return next(err)
-    // }
-
     if (authHeader === 'secret') {
         next();
     } else {
         let err = new Error('You are not authenticated!');
-        // res.setHeader('WWW-Authenticate', 'Basic');
         err.status = 401;
         return next(err);
     }
